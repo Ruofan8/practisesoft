@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PracticeFlorisoft.Models;
+using PracticeFlorisoft.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +12,10 @@ namespace PracticeFlorisoft.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var model = new BouquetModel();
+            var bouquetRepository = new BouquetRepository();
+            model.Bouquets = bouquetRepository.GetAllBouquets();
+            return View(model);
         }
 
         public ActionResult About()

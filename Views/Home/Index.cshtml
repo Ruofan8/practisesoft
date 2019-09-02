@@ -1,31 +1,80 @@
-﻿@{
+﻿@model PracticeFlorisoft.Models.BouquetModel
+@{
     ViewBag.Title = "Home Page";
 }
+<div class="hero-image">
+    <div class="wrapper">
+        <div class="container container--left-only">
+            <img src="https://via.placeholder.com/800" />
+            <div class="card">
+                <img src="https://via.placeholder.com/200x50" />
+                <h1>Maak contact met bloemisten</h1>
+                <ul>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" /></svg>
+                        <p>Plaats foto's van je mooiste boeketten en bloemstukken</p>
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" /></svg>
+                        <p>Raak geinspireed door boektten en bloemstukken van anderen!</p>
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" /></svg>
+                        <p>Verdien FlowerPoints met ieder boeket dat je toevoegt!</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="banner">
+    <div class="wrapper">
+        <div class="container">
+            <div class="card">
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+                <div class="card__content">
+                    <h2>Deel je boeket, ontvang flowerpoints en inspireer andere bloemprofessionals met jouw meesterwek!</h2>
+                </div>
+                <div class="card__button">
+                    <button class="button button--gradient" href="#">
+                        Boeket uploaden
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="banner">
+    <div class="wrapper">
+        <div class="container">
+            <h3>Hoogste gewaardeerde boeketten</h3> <hr /> <a href="#">Bekijk alle boeketten</a>
+        </div>
+    </div>
+</div>
+<div class="collage">
+    <div class="wrapper">
+        <div class="container">
+            @foreach (var bouquet in Model.Bouquets)
+            {
+                <div class="card card--collage">
+                    <div class="class__image">
+                        <img src="@bouquet.PhotoUrl" />
+                        <span>@bouquet.AmountLikes</span>
+                        <span>@bouquet.AmountComments</span>
+                    </div>
+                    <div class="card__content">
+                        <h3>@bouquet.Title</h3>
+                        <p>@bouquet.Username</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+<div class="image">
+    <div class="wrapper">
+        <div class="container">
+        </div>
     </div>
 </div>
