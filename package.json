@@ -1,0 +1,19 @@
+{
+  "name": "practiceflorisoft",
+  "version": "1.0.0",
+  "description": "A practice assignment to warmup with MVC 5",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ruofan Wang",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-typescript": "^5.0.1",
+    "gulp-watch": "^5.0.1",
+    "node-sass": "^4.12.0",
+    "typescript": "^3.6.2"
+  }
+}
