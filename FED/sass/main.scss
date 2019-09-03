@@ -8,6 +8,19 @@ $body-color: #333;
 /* BASE */
 body {
     font-family: Arial;
+
+    &.overlayed {
+        &:after {
+            content: '';
+            background: rgba(0,0,0,70%);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            left: 0;
+        }
+    }
 }
 
 a, p {
@@ -31,7 +44,7 @@ img {
 }
 
 /* LAYOUT */
-.sidebar {
+#sidebar {
     display: block;
     position: fixed;
     min-width: 250px;
@@ -108,7 +121,7 @@ img {
 }
 
 .collage {
-    .container {
+    .collage__container {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
@@ -116,14 +129,31 @@ img {
         height: 1000px;
 
         .card.card--collage {
-            width: 30%;
+            width: 27%;
         }
+    }
+}
+
+.dialog {
+    position: fixed;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+
+    &.show {
+        display:block;
+    }
+
+    .card {
+        background: white;
     }
 }
 
 /* Media Queries */
 @media(min-width: 1000px) {
-    .sidebar {
+    #sidebar {
         left: 0;
     }
 

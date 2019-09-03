@@ -10,14 +10,19 @@
 </head>
 <body>
     @* TODO: MOBILE slide *@
-    <div class="sidebar">
+    @* TODO: Partial *@
+    <div id="sidebar">
         <div class="card">
             <img src="https://via.placeholder.com/300x50" />
             <ul>
                 <li><a href="#">Mijn Profiel</a></li>
-                <li><a href="#">Alle boeketten</a></li>
+                <li><a class="collage-filter" href="#" data-filter="">Alle boeketten</a></li>
+                <li><a class="collage-filter" href="#" data-filter="rated">Hoogstgewaardeerd</a></li>
+                <li><a class="collage-filter" href="#" data-filter="viewed">Meest bekeken</a></li>
+                <li><a class="collage-filter" href="#" data-filter="likes">Meeste likes</a></li>
+                <li><a class="collage-filter" href="#" data-filter="comments">Meest reacties</a></li>
             </ul>
-            <button class="button button--primary" href="#"> Boeket uploaden</button>
+            <button class="button button--primary button--upload" href="#"> Boeket uploaden</button>
         </div>
     </div>
 

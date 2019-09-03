@@ -2,6 +2,17 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<div class="dialog">
+    <div class="card">
+        <form  action="/api/bouquet/add">
+            <input type="file" id="files" name="files[]" />
+            <img id="preview" />
+            <input type="text" id="name" placeholder="Naam van de foto" />
+            <input type="submit" id="submit" />
+            <input type="button" id="cancel" value="Sluiten"/>
+        </form>
+    </div>
+</div>
 <div class="hero-image">
     <div class="wrapper">
         <div class="container container--left-only">
@@ -36,7 +47,7 @@
                     <h2>Deel je boeket, ontvang flowerpoints en inspireer andere bloemprofessionals met jouw meesterwek!</h2>
                 </div>
                 <div class="card__button">
-                    <button class="button button--gradient" href="#">
+                    <button class="button button--gradient button--upload" href="#">
                         Boeket uploaden
                     </button>
                 </div>
@@ -44,30 +55,27 @@
         </div>
     </div>
 </div>
-<div class="banner">
-    <div class="wrapper">
-        <div class="container">
-            <h3>Hoogste gewaardeerde boeketten</h3> <hr /> <a href="#">Bekijk alle boeketten</a>
-        </div>
-    </div>
-</div>
+
 <div class="collage">
     <div class="wrapper">
         <div class="container">
-            @foreach (var bouquet in Model.Bouquets)
-            {
-                <div class="card card--collage">
-                    <div class="class__image">
-                        <img src="@bouquet.PhotoUrl" />
-                        <span>@bouquet.AmountLikes</span>
-                        <span>@bouquet.AmountComments</span>
+            <h3 class="collage__title">Hoogste gewaardeerde boeketten</h3> <hr /> <a href="#">Bekijk alle boeketten</a>
+            <div class="collage__container">
+                @foreach (var bouquet in Model.Bouquets)
+                {
+                    <div class="card card--collage">
+                        <div class="card__image">
+                            <img src="@bouquet.PhotoUrl" />
+                            <span>@bouquet.AmountLikes</span>
+                            <span>@bouquet.AmountComments</span>
+                        </div>
+                        <div class="card__content">
+                            <h3>@bouquet.Title</h3>
+                            <p>@bouquet.Username</p>
+                        </div>
                     </div>
-                    <div class="card__content">
-                        <h3>@bouquet.Title</h3>
-                        <p>@bouquet.Username</p>
-                    </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
 </div>

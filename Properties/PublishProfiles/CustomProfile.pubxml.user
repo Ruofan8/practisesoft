@@ -25,10 +25,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/18/2018 08:44:54</publishTime>
     </File>
     <File Include="bin/PracticeFlorisoft.dll">
-      <publishTime>09/02/2019 15:53:24</publishTime>
+      <publishTime>09/03/2019 14:23:34</publishTime>
     </File>
     <File Include="bin/PracticeFlorisoft.pdb">
-      <publishTime>09/02/2019 15:53:24</publishTime>
+      <publishTime>09/03/2019 14:23:34</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/24/2018 13:38:22</publishTime>
@@ -169,10 +169,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/statics/css/main.css">
-      <publishTime>09/02/2019 16:10:13</publishTime>
+      <publishTime>09/03/2019 15:12:17</publishTime>
     </File>
     <File Include="bin/statics/js/main.js">
-      <publishTime>02/09/2019 11:19:03</publishTime>
+      <publishTime>09/03/2019 16:36:53</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>01/28/2015 04:02:42</publishTime>
@@ -238,13 +238,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/09/2019 09:55:10</publishTime>
     </File>
     <File Include="FED/sass/main.scss">
-      <publishTime>09/02/2019 16:10:12</publishTime>
+      <publishTime>09/03/2019 15:10:05</publishTime>
     </File>
     <File Include="FED/ts/main.js">
-      <publishTime>02/09/2019 11:19:02</publishTime>
+      <publishTime>09/03/2019 16:36:52</publishTime>
     </File>
     <File Include="FED/ts/main.js.map">
-      <publishTime>02/09/2019 11:19:02</publishTime>
+      <publishTime>09/03/2019 16:36:52</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.eot">
       <publishTime>02/09/2019 09:55:13</publishTime>
@@ -304,10 +304,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/09/2019 09:55:15</publishTime>
     </File>
     <File Include="statics/css/main.css">
-      <publishTime>09/02/2019 16:10:13</publishTime>
+      <publishTime>09/03/2019 15:12:17</publishTime>
     </File>
     <File Include="statics/js/main.js">
-      <publishTime>02/09/2019 11:19:03</publishTime>
+      <publishTime>09/03/2019 16:36:53</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>02/09/2019 09:55:10</publishTime>
@@ -316,13 +316,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/09/2019 09:55:10</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>02/09/2019 16:00:14</publishTime>
+      <publishTime>09/03/2019 16:23:11</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>02/09/2019 09:55:10</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>02/09/2019 13:35:52</publishTime>
+      <publishTime>09/03/2019 14:31:55</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>02/09/2019 14:41:10</publishTime>
