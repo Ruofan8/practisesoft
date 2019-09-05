@@ -4547,7 +4547,8 @@ h3 {
   flex-direction: column;
   height: 1000px; }
   .collage .collage__container .card.card--collage {
-    width: 27%; }
+    width: 220px;
+    margin-bottom: 15px; }
 
 .dialog {
   position: fixed;
