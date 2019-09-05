@@ -1,3 +1,7 @@
+interface HTMLInputEvent extends Event {
+    target: HTMLInputElement & EventTarget;
+}
+
 class Bouquet {
     AmountComments: number;
     AmountLikes: number;
@@ -9,57 +13,7 @@ class Bouquet {
     Username: string;
 }
 
-interface HTMLInputEvent extends Event {
-    target: HTMLInputElement & EventTarget;
-}
-
-
-class RequestHelper {
-    url: string;
-
-    constructor(url: string) {
-        this.url = url;
-    }
-
-    async get() {
-        var myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
-
-        return await fetch(this.url, {
-            method: 'GET',
-            headers: myHeaders,
-            mode: 'cors',
-            credentials: 'same-origin',
-            cache: 'default'
-        })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            //TODO: return typed json?
-            return data;
-        });
-    }
-    async post(data) {
-        var myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
-
-        return await fetch(this.url, {
-            method: 'POST',
-            headers: myHeaders,
-            mode: 'cors',
-            credentials: 'same-origin',
-            cache: 'default',
-            body: JSON.stringify(data),
-        })
-        .then(function (response) {
-            return response.json();
-        });
-    }
-}
-
-class Init {
-    newBouquet: Bouquet = new Bouquet();
+class BouquetHelper {
     data: Bouquet[];
 
     bindFilters() {
@@ -69,13 +23,70 @@ class Init {
         for (var i = 0; i < filters.length; i++) {
             filters[i].addEventListener('click', (e) => {
                 var filter = e.srcElement;
-                var type = filter.getAttribute('data-filter');
-                var text = filter.textContent;
+                var type = (<any>filter).getAttribute('data-filter');
+                var text = (<any>filter).textContent;
                 console.log(type);
                 this.getData(type, text);
             });
         }
     };
+
+    async getData(param: string = null, text: string = 'Hoogste gewaardeerde') {
+        var collageContainer = document.getElementsByClassName('collage__container');
+        var requestHelper = new RequestHelper('http://practicesoft/api/bouquet/' + param);
+        this.data = await requestHelper.get();
+        console.log(this.data);
+        collageContainer[0].innerHTML = "";
+        for (var i = 0; i < this.data.length; i++) {
+            var card = this._generateHtml(this.data[i]);
+            collageContainer[0].appendChild(card);
+        }
+
+        var collageTitle = document.getElementsByClassName('collage__title');
+        collageTitle[0].textContent = text + ' boeketten';
+
+        //TODO: Investigate nice void return
+        return this.data;
+    };
+
+    //TODO: Refactor return view as data instead of generateHtml
+    _generateHtml(bouquet: Bouquet) {
+        var cardImage = document.createElement('div');
+        cardImage.className = 'card__image';
+
+        var img = document.createElement('img');
+        img.src = bouquet.PhotoUrl;
+        cardImage.appendChild(img);
+
+        var like = document.createElement('span')
+        like.innerText = bouquet.AmountLikes.toString();
+        cardImage.appendChild(like);
+        var comments = document.createElement('span')
+        comments.innerText = bouquet.AmountComments.toString();
+        cardImage.appendChild(comments);
+
+        var cardContent = document.createElement('div');
+        cardContent.className = 'card__content';
+
+        var title = document.createElement('h3')
+        title.innerText = bouquet.Title;
+        cardContent.appendChild(title);
+        var username = document.createElement('p')
+        username.innerText = bouquet.Username;
+        cardContent.appendChild(username);
+
+        var card = document.createElement('div');
+        card.className = 'card card--collage';
+        card.appendChild(cardImage);
+        card.appendChild(cardContent);
+
+        return card;
+    }
+
+}
+
+class Upload {
+    newBouquet: Bouquet = new Bouquet();
 
     bindUploadScreen() {
         var body = document.body;
@@ -142,7 +153,7 @@ class Init {
                         console.log(this.newBouquet)
 
                     }, 1000);
-    
+
 
                 };
                 reader.readAsDataURL(file);
@@ -165,57 +176,6 @@ class Init {
             return await this.uploadImage(this.newBouquet);
         });
     }
-    async getData(param: string = null, text: string = 'Hoogste gewaardeerde') {
-        var collageContainer = document.getElementsByClassName('collage__container');
-        var requestHelper = new RequestHelper('http://practicesoft/api/bouquet/'+ param);
-        this.data = await requestHelper.get();
-        console.log(this.data);
-        collageContainer[0].innerHTML = "";
-        for (var i = 0; i < this.data.length; i++) {
-            var card = this._generateHtml(this.data[i]);
-            collageContainer[0].appendChild(card);
-        }
-
-        var collageTitle = document.getElementsByClassName('collage__title');
-        collageTitle[0].textContent = text + ' boeketten';
-
-        //TODO: Investigate nice void return
-        return this.data;
-    };
-
-    //TODO: Refactor return view as data instead of generateHtml
-    _generateHtml(bouquet: Bouquet) {
-        var cardImage = document.createElement('div');
-        cardImage.className = 'card__image';
-
-        var img = document.createElement('img');
-        img.src = bouquet.PhotoUrl;
-        cardImage.appendChild(img);
-
-        var like = document.createElement('span')
-        like.innerText = bouquet.AmountLikes.toString();
-        cardImage.appendChild(like);
-        var comments = document.createElement('span')
-        comments.innerText = bouquet.AmountComments.toString();
-        cardImage.appendChild(comments);
-    
-        var cardContent = document.createElement('div');
-        cardContent.className = 'card__content';
-
-        var title = document.createElement('h3')
-        title.innerText = bouquet.Title;
-        cardContent.appendChild(title);
-        var username = document.createElement('p')
-        username.innerText = bouquet.Username;
-        cardContent.appendChild(username);
-
-        var card = document.createElement('div');
-        card.className = 'card card--collage';
-        card.appendChild(cardImage);
-        card.appendChild(cardContent);
-
-        return card;
-    }
 
     async uploadImage(bouquet: Bouquet) {
         var requestHelper = new RequestHelper('http://practicesoft/api/bouquet/add');
@@ -227,11 +187,14 @@ class Init {
     }
 }
 
-class Collage {
-    //TODO: Move Init to Collage
+class Init {
+    constructor() {
+        var bouquetHelper = new BouquetHelper();
+        bouquetHelper.bindFilters();
+        var upload = new Upload();
+        upload.bindUploadScreen();
+        upload.bindUpload();
+    }
 }
 
 var init = new Init();
-init.bindFilters();
-init.bindUploadScreen();
-init.bindUpload();

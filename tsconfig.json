@@ -1,9 +1,10 @@
 {
-    "files": [
-        "FED/ts/main.ts"
-    ],
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "target": "es5"
-    }
+  "files": [
+    "FED/ts/main.ts",
+    "FED/ts/request.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "target": "es5"
+  }
 }

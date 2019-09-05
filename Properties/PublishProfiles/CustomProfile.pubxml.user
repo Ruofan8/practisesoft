@@ -25,10 +25,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/18/2018 08:44:54</publishTime>
     </File>
     <File Include="bin/PracticeFlorisoft.dll">
-      <publishTime>09/03/2019 14:23:34</publishTime>
+      <publishTime>05/09/2019 11:47:26</publishTime>
     </File>
     <File Include="bin/PracticeFlorisoft.pdb">
-      <publishTime>09/03/2019 14:23:34</publishTime>
+      <publishTime>05/09/2019 11:47:26</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/24/2018 13:38:22</publishTime>
@@ -169,10 +169,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/statics/css/main.css">
-      <publishTime>09/03/2019 15:12:17</publishTime>
+      <publishTime>09/05/2019 12:12:20</publishTime>
     </File>
     <File Include="bin/statics/js/main.js">
-      <publishTime>09/03/2019 16:36:53</publishTime>
+      <publishTime>09/05/2019 11:56:24</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>01/28/2015 04:02:42</publishTime>
@@ -238,13 +238,55 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/09/2019 09:55:10</publishTime>
     </File>
     <File Include="FED/sass/main.scss">
-      <publishTime>09/03/2019 15:10:05</publishTime>
+      <publishTime>09/05/2019 11:52:05</publishTime>
+    </File>
+    <File Include="FED/sass/_banner.scss">
+      <publishTime>05/09/2019 11:44:11</publishTime>
+    </File>
+    <File Include="FED/sass/_button.scss">
+      <publishTime>05/09/2019 11:44:54</publishTime>
+    </File>
+    <File Include="FED/sass/_card.scss">
+      <publishTime>09/05/2019 12:12:19</publishTime>
+    </File>
+    <File Include="FED/sass/_collage.scss">
+      <publishTime>05/09/2019 11:45:37</publishTime>
+    </File>
+    <File Include="FED/sass/_dialog.scss">
+      <publishTime>05/09/2019 11:45:33</publishTime>
+    </File>
+    <File Include="FED/sass/_hero-image.scss">
+      <publishTime>05/09/2019 11:45:08</publishTime>
+    </File>
+    <File Include="FED/sass/_layout.scss">
+      <publishTime>05/09/2019 11:54:36</publishTime>
+    </File>
+    <File Include="FED/sass/_variables.scss">
+      <publishTime>05/09/2019 11:40:18</publishTime>
+    </File>
+    <File Include="FED/ts/bouquet.js">
+      <publishTime>09/05/2019 11:01:50</publishTime>
+    </File>
+    <File Include="FED/ts/bouquet.js.map">
+      <publishTime>09/05/2019 11:01:50</publishTime>
     </File>
     <File Include="FED/ts/main.js">
-      <publishTime>09/03/2019 16:36:52</publishTime>
+      <publishTime>05/09/2019 11:47:25</publishTime>
     </File>
     <File Include="FED/ts/main.js.map">
-      <publishTime>09/03/2019 16:36:52</publishTime>
+      <publishTime>05/09/2019 11:47:25</publishTime>
+    </File>
+    <File Include="FED/ts/request-helper.js">
+      <publishTime>09/05/2019 11:01:50</publishTime>
+    </File>
+    <File Include="FED/ts/request-helper.js.map">
+      <publishTime>09/05/2019 11:01:50</publishTime>
+    </File>
+    <File Include="FED/ts/request.js">
+      <publishTime>05/09/2019 11:47:25</publishTime>
+    </File>
+    <File Include="FED/ts/request.js.map">
+      <publishTime>05/09/2019 11:47:25</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.eot">
       <publishTime>02/09/2019 09:55:13</publishTime>
@@ -304,10 +346,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/09/2019 09:55:15</publishTime>
     </File>
     <File Include="statics/css/main.css">
-      <publishTime>09/03/2019 15:12:17</publishTime>
+      <publishTime>09/05/2019 12:12:20</publishTime>
     </File>
     <File Include="statics/js/main.js">
-      <publishTime>09/03/2019 16:36:53</publishTime>
+      <publishTime>09/05/2019 11:56:24</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>02/09/2019 09:55:10</publishTime>
@@ -316,7 +358,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/09/2019 09:55:10</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>09/03/2019 16:23:11</publishTime>
+      <publishTime>09/05/2019 12:10:42</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>02/09/2019 09:55:10</publishTime>

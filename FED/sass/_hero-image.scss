@@ -1,0 +1,54 @@
+﻿.hero-image {
+    .container {
+        background-image: url(/statics/img/background.png);
+        background-size: cover;
+        overflow: hidden;
+        position: relative;
+
+
+        > img {
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            margin: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        .card {
+            background: white;
+            width: 50%;
+            margin: 20px;
+
+            svg {
+                float: left;
+                height: 30px;
+                width: 30px;
+            }
+
+            img {
+                margin-bottom: 30px;
+            }
+
+            p {
+                margin-left: 35px;
+            }
+
+            ul {
+                li:not(:last-child) {
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 800px) {
+    .hero-image .container .card {
+        width: auto;
+    }
+}

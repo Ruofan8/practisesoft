@@ -33,11 +33,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var Bouquet = /** @class */ (function () {
-    function Bouquet() {
-    }
-    return Bouquet;
-}());
 var RequestHelper = /** @class */ (function () {
     function RequestHelper(url) {
         this.url = url;
@@ -95,11 +90,15 @@ var RequestHelper = /** @class */ (function () {
     };
     return RequestHelper;
 }());
-var Init = /** @class */ (function () {
-    function Init() {
-        this.newBouquet = new Bouquet();
+var Bouquet = /** @class */ (function () {
+    function Bouquet() {
     }
-    Init.prototype.bindFilters = function () {
+    return Bouquet;
+}());
+var BouquetHelper = /** @class */ (function () {
+    function BouquetHelper() {
+    }
+    BouquetHelper.prototype.bindFilters = function () {
         var _this = this;
         //TODO: refactor move outside, be more efficient with elements
         var sidebar = document.getElementById('sidebar');
@@ -115,7 +114,69 @@ var Init = /** @class */ (function () {
         }
     };
     ;
-    Init.prototype.bindUploadScreen = function () {
+    BouquetHelper.prototype.getData = function (param, text) {
+        if (param === void 0) { param = null; }
+        if (text === void 0) { text = 'Hoogste gewaardeerde'; }
+        return __awaiter(this, void 0, void 0, function () {
+            var collageContainer, requestHelper, _a, i, card, collageTitle;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        collageContainer = document.getElementsByClassName('collage__container');
+                        requestHelper = new RequestHelper('http://practicesoft/api/bouquet/' + param);
+                        _a = this;
+                        return [4 /*yield*/, requestHelper.get()];
+                    case 1:
+                        _a.data = _b.sent();
+                        console.log(this.data);
+                        collageContainer[0].innerHTML = "";
+                        for (i = 0; i < this.data.length; i++) {
+                            card = this._generateHtml(this.data[i]);
+                            collageContainer[0].appendChild(card);
+                        }
+                        collageTitle = document.getElementsByClassName('collage__title');
+                        collageTitle[0].textContent = text + ' boeketten';
+                        //TODO: Investigate nice void return
+                        return [2 /*return*/, this.data];
+                }
+            });
+        });
+    };
+    ;
+    //TODO: Refactor return view as data instead of generateHtml
+    BouquetHelper.prototype._generateHtml = function (bouquet) {
+        var cardImage = document.createElement('div');
+        cardImage.className = 'card__image';
+        var img = document.createElement('img');
+        img.src = bouquet.PhotoUrl;
+        cardImage.appendChild(img);
+        var like = document.createElement('span');
+        like.innerText = bouquet.AmountLikes.toString();
+        cardImage.appendChild(like);
+        var comments = document.createElement('span');
+        comments.innerText = bouquet.AmountComments.toString();
+        cardImage.appendChild(comments);
+        var cardContent = document.createElement('div');
+        cardContent.className = 'card__content';
+        var title = document.createElement('h3');
+        title.innerText = bouquet.Title;
+        cardContent.appendChild(title);
+        var username = document.createElement('p');
+        username.innerText = bouquet.Username;
+        cardContent.appendChild(username);
+        var card = document.createElement('div');
+        card.className = 'card card--collage';
+        card.appendChild(cardImage);
+        card.appendChild(cardContent);
+        return card;
+    };
+    return BouquetHelper;
+}());
+var Upload = /** @class */ (function () {
+    function Upload() {
+        this.newBouquet = new Bouquet();
+    }
+    Upload.prototype.bindUploadScreen = function () {
         var body = document.body;
         var dialog = document.getElementsByClassName('dialog');
         var buttons = document.getElementsByClassName('button--upload');
@@ -127,7 +188,7 @@ var Init = /** @class */ (function () {
         }
         ;
     };
-    Init.prototype.bindUpload = function () {
+    Upload.prototype.bindUpload = function () {
         var _this = this;
         var file = document.getElementById('files');
         file.addEventListener('change', function (e) {
@@ -204,63 +265,7 @@ var Init = /** @class */ (function () {
             });
         }); });
     };
-    Init.prototype.getData = function (param, text) {
-        if (param === void 0) { param = null; }
-        if (text === void 0) { text = 'Hoogste gewaardeerde'; }
-        return __awaiter(this, void 0, void 0, function () {
-            var collageContainer, requestHelper, _a, i, card, collageTitle;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        collageContainer = document.getElementsByClassName('collage__container');
-                        requestHelper = new RequestHelper('http://practicesoft/api/bouquet/' + param);
-                        _a = this;
-                        return [4 /*yield*/, requestHelper.get()];
-                    case 1:
-                        _a.data = _b.sent();
-                        console.log(this.data);
-                        collageContainer[0].innerHTML = "";
-                        for (i = 0; i < this.data.length; i++) {
-                            card = this._generateHtml(this.data[i]);
-                            collageContainer[0].appendChild(card);
-                        }
-                        collageTitle = document.getElementsByClassName('collage__title');
-                        collageTitle[0].textContent = text + ' boeketten';
-                        //TODO: Investigate nice void return
-                        return [2 /*return*/, this.data];
-                }
-            });
-        });
-    };
-    ;
-    //TODO: Refactor return view as data instead of generateHtml
-    Init.prototype._generateHtml = function (bouquet) {
-        var cardImage = document.createElement('div');
-        cardImage.className = 'card__image';
-        var img = document.createElement('img');
-        img.src = bouquet.PhotoUrl;
-        cardImage.appendChild(img);
-        var like = document.createElement('span');
-        like.innerText = bouquet.AmountLikes.toString();
-        cardImage.appendChild(like);
-        var comments = document.createElement('span');
-        comments.innerText = bouquet.AmountComments.toString();
-        cardImage.appendChild(comments);
-        var cardContent = document.createElement('div');
-        cardContent.className = 'card__content';
-        var title = document.createElement('h3');
-        title.innerText = bouquet.Title;
-        cardContent.appendChild(title);
-        var username = document.createElement('p');
-        username.innerText = bouquet.Username;
-        cardContent.appendChild(username);
-        var card = document.createElement('div');
-        card.className = 'card card--collage';
-        card.appendChild(cardImage);
-        card.appendChild(cardContent);
-        return card;
-    };
-    Init.prototype.uploadImage = function (bouquet) {
+    Upload.prototype.uploadImage = function (bouquet) {
         return __awaiter(this, void 0, void 0, function () {
             var requestHelper;
             return __generator(this, function (_a) {
@@ -274,15 +279,18 @@ var Init = /** @class */ (function () {
             });
         });
     };
+    return Upload;
+}());
+var Init = /** @class */ (function () {
+    function Init() {
+        var bouquetHelper = new BouquetHelper();
+        bouquetHelper.bindFilters();
+        var upload = new Upload();
+        upload.bindUploadScreen();
+        upload.bindUpload();
+    }
     return Init;
 }());
-var Collage = /** @class */ (function () {
-    function Collage() {
-    }
-    return Collage;
-}());
 var init = new Init();
-init.bindFilters();
-init.bindUploadScreen();
-init.bindUpload();
+console.log('request.ts');
 //# sourceMappingURL=main.js.map

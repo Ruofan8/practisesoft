@@ -36,6 +36,20 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile>statics\js\main.js</TypeScriptOutFile>
+    <TypeScriptOutDir>
+    </TypeScriptOutDir>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -155,6 +169,33 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="FED\sass\main.scss" />
+    <Content Include="FED\sass\_variables.scss" />
+    <Content Include="FED\sass\_layout.scss" />
+    <Content Include="FED\sass\_banner.scss" />
+    <Content Include="FED\sass\font-awesome\brands.scss" />
+    <Content Include="FED\sass\font-awesome\fontawesome.scss" />
+    <Content Include="FED\sass\font-awesome\regular.scss" />
+    <Content Include="FED\sass\font-awesome\solid.scss" />
+    <Content Include="FED\sass\font-awesome\v4-shims.scss" />
+    <Content Include="FED\sass\font-awesome\_animated.scss" />
+    <Content Include="FED\sass\font-awesome\_bordered-pulled.scss" />
+    <Content Include="FED\sass\font-awesome\_core.scss" />
+    <Content Include="FED\sass\font-awesome\_fixed-width.scss" />
+    <Content Include="FED\sass\font-awesome\_icons.scss" />
+    <Content Include="FED\sass\font-awesome\_larger.scss" />
+    <Content Include="FED\sass\font-awesome\_list.scss" />
+    <Content Include="FED\sass\font-awesome\_mixins.scss" />
+    <Content Include="FED\sass\font-awesome\_rotated-flipped.scss" />
+    <Content Include="FED\sass\font-awesome\_screen-reader.scss" />
+    <Content Include="FED\sass\font-awesome\_shims.scss" />
+    <Content Include="FED\sass\font-awesome\_stacked.scss" />
+    <Content Include="FED\sass\font-awesome\_variables.scss" />
+    <None Include="FED\sass\_base.scss" />
+    <Content Include="FED\sass\_button.scss" />
+    <Content Include="FED\sass\_card.scss" />
+    <Content Include="FED\sass\_collage.scss" />
+    <Content Include="FED\sass\_dialog.scss" />
+    <Content Include="FED\sass\_hero-image.scss" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -170,9 +211,10 @@
     <Content Include="statics\css\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="statics\js\main.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="statics\css\webfonts\fa-brands-400.svg" />
+    <Content Include="statics\css\webfonts\fa-regular-400.svg" />
+    <Content Include="statics\css\webfonts\fa-solid-900.svg" />
+    <Content Include="statics\js\main.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -187,6 +229,18 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="statics\css\webfonts\fa-brands-400.eot" />
+    <Content Include="statics\css\webfonts\fa-brands-400.ttf" />
+    <Content Include="statics\css\webfonts\fa-brands-400.woff" />
+    <Content Include="statics\css\webfonts\fa-brands-400.woff2" />
+    <Content Include="statics\css\webfonts\fa-regular-400.eot" />
+    <Content Include="statics\css\webfonts\fa-regular-400.ttf" />
+    <Content Include="statics\css\webfonts\fa-regular-400.woff" />
+    <Content Include="statics\css\webfonts\fa-regular-400.woff2" />
+    <Content Include="statics\css\webfonts\fa-solid-900.eot" />
+    <Content Include="statics\css\webfonts\fa-solid-900.ttf" />
+    <Content Include="statics\css\webfonts\fa-solid-900.woff" />
+    <Content Include="statics\css\webfonts\fa-solid-900.woff2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -206,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="FED\ts\main.ts" />
+    <TypeScriptCompile Include="FED\ts\request.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

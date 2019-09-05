@@ -1,9 +1,8 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -39,68 +38,10 @@ var Bouquet = /** @class */ (function () {
     }
     return Bouquet;
 }());
-var RequestHelper = /** @class */ (function () {
-    function RequestHelper(url) {
-        this.url = url;
+var BouquetHelper = /** @class */ (function () {
+    function BouquetHelper() {
     }
-    RequestHelper.prototype.get = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var myHeaders;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        myHeaders = new Headers();
-                        myHeaders.append('Content-Type', 'application/json');
-                        return [4 /*yield*/, fetch(this.url, {
-                                method: 'GET',
-                                headers: myHeaders,
-                                mode: 'cors',
-                                credentials: 'same-origin',
-                                cache: 'default'
-                            })
-                                .then(function (response) {
-                                return response.json();
-                            })
-                                .then(function (data) {
-                                //TODO: return typed json?
-                                return data;
-                            })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    RequestHelper.prototype.post = function (data) {
-        return __awaiter(this, void 0, void 0, function () {
-            var myHeaders;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        myHeaders = new Headers();
-                        myHeaders.append('Content-Type', 'application/json');
-                        return [4 /*yield*/, fetch(this.url, {
-                                method: 'POST',
-                                headers: myHeaders,
-                                mode: 'cors',
-                                credentials: 'same-origin',
-                                cache: 'default',
-                                body: JSON.stringify(data),
-                            })
-                                .then(function (response) {
-                                return response.json();
-                            })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    return RequestHelper;
-}());
-var Init = /** @class */ (function () {
-    function Init() {
-        this.newBouquet = new Bouquet();
-    }
-    Init.prototype.bindFilters = function () {
+    BouquetHelper.prototype.bindFilters = function () {
         var _this = this;
         //TODO: refactor move outside, be more efficient with elements
         var sidebar = document.getElementById('sidebar');
@@ -116,7 +57,69 @@ var Init = /** @class */ (function () {
         }
     };
     ;
-    Init.prototype.bindUploadScreen = function () {
+    BouquetHelper.prototype.getData = function (param, text) {
+        if (param === void 0) { param = null; }
+        if (text === void 0) { text = 'Hoogste gewaardeerde'; }
+        return __awaiter(this, void 0, void 0, function () {
+            var collageContainer, requestHelper, _a, i, card, collageTitle;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        collageContainer = document.getElementsByClassName('collage__container');
+                        requestHelper = new RequestHelper('http://practicesoft/api/bouquet/' + param);
+                        _a = this;
+                        return [4 /*yield*/, requestHelper.get()];
+                    case 1:
+                        _a.data = _b.sent();
+                        console.log(this.data);
+                        collageContainer[0].innerHTML = "";
+                        for (i = 0; i < this.data.length; i++) {
+                            card = this._generateHtml(this.data[i]);
+                            collageContainer[0].appendChild(card);
+                        }
+                        collageTitle = document.getElementsByClassName('collage__title');
+                        collageTitle[0].textContent = text + ' boeketten';
+                        //TODO: Investigate nice void return
+                        return [2 /*return*/, this.data];
+                }
+            });
+        });
+    };
+    ;
+    //TODO: Refactor return view as data instead of generateHtml
+    BouquetHelper.prototype._generateHtml = function (bouquet) {
+        var cardImage = document.createElement('div');
+        cardImage.className = 'card__image';
+        var img = document.createElement('img');
+        img.src = bouquet.PhotoUrl;
+        cardImage.appendChild(img);
+        var like = document.createElement('span');
+        like.innerText = bouquet.AmountLikes.toString();
+        cardImage.appendChild(like);
+        var comments = document.createElement('span');
+        comments.innerText = bouquet.AmountComments.toString();
+        cardImage.appendChild(comments);
+        var cardContent = document.createElement('div');
+        cardContent.className = 'card__content';
+        var title = document.createElement('h3');
+        title.innerText = bouquet.Title;
+        cardContent.appendChild(title);
+        var username = document.createElement('p');
+        username.innerText = bouquet.Username;
+        cardContent.appendChild(username);
+        var card = document.createElement('div');
+        card.className = 'card card--collage';
+        card.appendChild(cardImage);
+        card.appendChild(cardContent);
+        return card;
+    };
+    return BouquetHelper;
+}());
+var Upload = /** @class */ (function () {
+    function Upload() {
+        this.newBouquet = new Bouquet();
+    }
+    Upload.prototype.bindUploadScreen = function () {
         var body = document.body;
         var dialog = document.getElementsByClassName('dialog');
         var buttons = document.getElementsByClassName('button--upload');
@@ -128,7 +131,7 @@ var Init = /** @class */ (function () {
         }
         ;
     };
-    Init.prototype.bindUpload = function () {
+    Upload.prototype.bindUpload = function () {
         var _this = this;
         var file = document.getElementById('files');
         file.addEventListener('change', function (e) {
@@ -205,63 +208,7 @@ var Init = /** @class */ (function () {
             });
         }); });
     };
-    Init.prototype.getData = function (param, text) {
-        if (param === void 0) { param = null; }
-        if (text === void 0) { text = 'Hoogste gewaardeerde'; }
-        return __awaiter(this, void 0, void 0, function () {
-            var collageContainer, requestHelper, _a, i, card, collageTitle;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        collageContainer = document.getElementsByClassName('collage__container');
-                        requestHelper = new RequestHelper('http://practicesoft/api/bouquet/' + param);
-                        _a = this;
-                        return [4 /*yield*/, requestHelper.get()];
-                    case 1:
-                        _a.data = _b.sent();
-                        console.log(this.data);
-                        collageContainer[0].innerHTML = "";
-                        for (i = 0; i < this.data.length; i++) {
-                            card = this._generateHtml(this.data[i]);
-                            collageContainer[0].appendChild(card);
-                        }
-                        collageTitle = document.getElementsByClassName('collage__title');
-                        collageTitle[0].textContent = text + ' boeketten';
-                        //TODO: Investigate nice void return
-                        return [2 /*return*/, this.data];
-                }
-            });
-        });
-    };
-    ;
-    //TODO: Refactor return view as data instead of generateHtml
-    Init.prototype._generateHtml = function (bouquet) {
-        var cardImage = document.createElement('div');
-        cardImage.className = 'card__image';
-        var img = document.createElement('img');
-        img.src = bouquet.PhotoUrl;
-        cardImage.appendChild(img);
-        var like = document.createElement('span');
-        like.innerText = bouquet.AmountLikes.toString();
-        cardImage.appendChild(like);
-        var comments = document.createElement('span');
-        comments.innerText = bouquet.AmountComments.toString();
-        cardImage.appendChild(comments);
-        var cardContent = document.createElement('div');
-        cardContent.className = 'card__content';
-        var title = document.createElement('h3');
-        title.innerText = bouquet.Title;
-        cardContent.appendChild(title);
-        var username = document.createElement('p');
-        username.innerText = bouquet.Username;
-        cardContent.appendChild(username);
-        var card = document.createElement('div');
-        card.className = 'card card--collage';
-        card.appendChild(cardImage);
-        card.appendChild(cardContent);
-        return card;
-    };
-    Init.prototype.uploadImage = function (bouquet) {
+    Upload.prototype.uploadImage = function (bouquet) {
         return __awaiter(this, void 0, void 0, function () {
             var requestHelper;
             return __generator(this, function (_a) {
@@ -275,14 +222,75 @@ var Init = /** @class */ (function () {
             });
         });
     };
+    return Upload;
+}());
+var Init = /** @class */ (function () {
+    function Init() {
+        var bouquetHelper = new BouquetHelper();
+        bouquetHelper.bindFilters();
+        var upload = new Upload();
+        upload.bindUploadScreen();
+        upload.bindUpload();
+    }
     return Init;
 }());
-var Collage = /** @class */ (function () {
-    function Collage() {
-    }
-    return Collage;
-}());
 var init = new Init();
-init.bindFilters();
-init.bindUploadScreen();
-init.bindUpload();
+console.log('request.ts');
+var RequestHelper = /** @class */ (function () {
+    function RequestHelper(url) {
+        this.url = url;
+    }
+    RequestHelper.prototype.get = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var myHeaders;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        myHeaders = new Headers();
+                        myHeaders.append('Content-Type', 'application/json');
+                        return [4 /*yield*/, fetch(this.url, {
+                                method: 'GET',
+                                headers: myHeaders,
+                                mode: 'cors',
+                                credentials: 'same-origin',
+                                cache: 'default'
+                            })
+                                .then(function (response) {
+                                return response.json();
+                            })
+                                .then(function (data) {
+                                //TODO: return typed json?
+                                return data;
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    RequestHelper.prototype.post = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var myHeaders;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        myHeaders = new Headers();
+                        myHeaders.append('Content-Type', 'application/json');
+                        return [4 /*yield*/, fetch(this.url, {
+                                method: 'POST',
+                                headers: myHeaders,
+                                mode: 'cors',
+                                credentials: 'same-origin',
+                                cache: 'default',
+                                body: JSON.stringify(data),
+                            })
+                                .then(function (response) {
+                                return response.json();
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    return RequestHelper;
+}());
+//# sourceMappingURL=main.js.map

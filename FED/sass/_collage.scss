@@ -1,0 +1,43 @@
+﻿@import '_variables.scss';
+
+.collage {
+    .collage__header {
+        display: flex;
+        margin-bottom: 30px;
+
+        > * {
+            white-space: nowrap;
+        }
+
+        a {
+            margin-left: 5px;
+            color: $light-blue-color;
+            font-weight: bold;
+        }
+
+        hr {
+            border: 1px solid $secondary-color;
+            justify-content: stretch;
+            position: relative;
+            width: 100%;
+            margin-bottom: 10px;
+            opacity: .5;
+        }
+
+        .collage__title {
+            margin-right: 5px;
+        }
+    }
+
+    .collage__container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        flex-direction: column;
+        height: 1000px;
+
+        .card.card--collage {
+            width: 27%;
+        }
+    }
+}

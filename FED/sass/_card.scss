@@ -1,0 +1,73 @@
+﻿.card {
+    border: 1px solid lightgrey;
+    padding: 10px;
+}
+
+.card.card--collage {
+    border: 0;
+    padding: 0;
+    position: relative;
+
+    .card__image {
+        .card__social {
+            background: rgba(255, 255, 255, 0.8);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 0;
+            right: 20px;
+            text-align: center;
+            padding: 5px;
+            box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+
+            .card__social--container {
+                position: relative;
+                width: 30px;
+
+                &:not(:last-child) {
+                    margin-bottom: 4px;
+                }
+
+                &:before {
+                    content: "";
+                    font-family: "Font Awesome 5 Free";
+                    font-size: 30px;
+                    font-weight: 900;
+                    left: 0;
+                    position: absolute;
+                    top: 0;
+                }
+
+                &.card__like {
+                    &:before {
+                        color: #ff098e;
+                        content: "\f004";
+                    }
+                }
+
+                &.card__comment {
+                    &:before {
+                        color: $light-blue-color;
+                        content: "\f27a";
+                    }
+                }
+
+                span {
+                    font-size: 12px;
+                    line-height: 31px;
+                    position: relative;
+                    z-index: 1;
+                }
+            }
+        }
+    }
+
+    .card__content {
+        border-color: lightgrey;
+        border-style: solid;
+        border-width: 0 1px 1px 1px;
+        padding: 10px;
+        text-align: center;
+    }
+}

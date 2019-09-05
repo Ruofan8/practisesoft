@@ -1,0 +1,51 @@
+﻿@import '_variables.scss';
+
+.banner {
+    .container {
+        .card {
+            display: flex;
+            border-color: $primary-color;
+            border-radius: 3px;
+            padding: 15px 15px 15px 60px;
+
+            .card__content {
+                width: 70%;
+            }
+
+            .card__holder {
+                justify-content: flex-end;
+                flex-direction: column;
+                display: flex;
+
+                .card__button {
+                    .button {
+                        background: linear-gradient(to bottom, $primar-color-lighten 0%, $primar-color-lighten 50%, $primar-color-lighten 51%, $primary-color 100%);
+                        color: white;
+                        border-radius: 3px;
+                        border: 4px solid lighten($primar-color-lighten, 5%);
+                        font-weight: 700;
+                        padding: 7px 40px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media(max-width: 1200px) {
+    .banner .container .card {
+        display: block;
+        padding: 15px 30px;
+
+        .card__content {
+            width: auto;
+            margin-bottom: 20px
+        }
+
+        .card__holder .card__button .button {
+            display: inline-block;
+            width: auto;
+        }
+    }
+}

@@ -16,9 +16,9 @@
 <div class="hero-image">
     <div class="wrapper">
         <div class="container container--left-only">
-            <img src="https://via.placeholder.com/800" />
+            @*<img src="~/statics/img/background.png" />*@
             <div class="card">
-                <img src="https://via.placeholder.com/200x50" />
+                <img src="~/statics/img/logo.png" />
                 <h1>Maak contact met bloemisten</h1>
                 <ul>
                     <li>
@@ -46,10 +46,12 @@
                 <div class="card__content">
                     <h2>Deel je boeket, ontvang flowerpoints en inspireer andere bloemprofessionals met jouw meesterwek!</h2>
                 </div>
-                <div class="card__button">
-                    <button class="button button--gradient button--upload" href="#">
-                        Boeket uploaden
-                    </button>
+                <div class="card__holder">
+                    <div class="card__button">
+                        <a class="button button--gradient button--upload" href="#">
+                            Boeket uploaden
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,15 +61,25 @@
 <div class="collage">
     <div class="wrapper">
         <div class="container">
-            <h3 class="collage__title">Hoogste gewaardeerde boeketten</h3> <hr /> <a href="#">Bekijk alle boeketten</a>
+            <div class="collage__header">
+                <h3 class="collage__title">Hoogste gewaardeerde boeketten</h3> <hr /> <a href="#">> Bekijk alle boeketten</a>
+            </div>
             <div class="collage__container">
                 @foreach (var bouquet in Model.Bouquets)
                 {
                     <div class="card card--collage">
                         <div class="card__image">
                             <img src="@bouquet.PhotoUrl" />
-                            <span>@bouquet.AmountLikes</span>
-                            <span>@bouquet.AmountComments</span>
+                            <div class="card__social">
+                                <div class="card__social--container card__like">
+                                    @*<i class="fas fa-heart"></i>*@
+                                    <span>@bouquet.AmountLikes</span>
+                                </div>
+                                <div class="card__social--container card__comment">
+                                    @*<i class="fas fa-comment-alt"></i>*@
+                                    <span>@bouquet.AmountComments</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="card__content">
                             <h3>@bouquet.Title</h3>
