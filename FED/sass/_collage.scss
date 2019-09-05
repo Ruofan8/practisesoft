@@ -39,6 +39,18 @@
         .card.card--collage {
             width: 220px;
             margin-bottom: 15px;
+
+            &.col-1 {
+                background: red;
+            }
+
+            &.col-2 {
+                background: green;
+            }
+
+            &.col-3 {
+                background: blue;
+            }
         }
     }
 }

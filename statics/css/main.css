@@ -4423,7 +4423,7 @@ h3 {
 /* Media Queries */
 @media (min-width: 1200px) {
   #sidebar {
-    left: 0; }
+    left: calc(50% - 560px); }
   .container {
     margin: 0 auto;
     width: 700px; } }
@@ -4549,6 +4549,12 @@ h3 {
   .collage .collage__container .card.card--collage {
     width: 220px;
     margin-bottom: 15px; }
+    .collage .collage__container .card.card--collage.col-1 {
+      background: red; }
+    .collage .collage__container .card.card--collage.col-2 {
+      background: green; }
+    .collage .collage__container .card.card--collage.col-3 {
+      background: blue; }
 
 .dialog {
   position: fixed;

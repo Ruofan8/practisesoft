@@ -20,7 +20,7 @@
 /* Media Queries */
 @media(min-width: 1200px) {
     #sidebar {
-        left: 0;
+        left: calc(50% - 560px);
     }
 
     .container {
