@@ -4542,13 +4542,24 @@ h3 {
 
 .collage .collage__container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  flex-direction: column;
-  height: 1000px; }
+  flex-flow: column wrap;
+  /*height still is needed to push, but column forcing thanks to tobiasalhin*/
+  /*https://tobiasahlin.com/blog/masonry-with-css/*/
+  height: 2500px; }
+  .collage .collage__container::before, .collage .collage__container::after {
+    content: "";
+    flex-basis: 100%;
+    width: 0;
+    order: 2; }
   .collage .collage__container .card.card--collage {
-    width: 220px;
+    width: 32%;
     margin-bottom: 15px; }
+    .collage .collage__container .card.card--collage:nth-child(3n+1) {
+      order: 1; }
+    .collage .collage__container .card.card--collage:nth-child(3n+2) {
+      order: 2; }
+    .collage .collage__container .card.card--collage:nth-child(3n) {
+      order: 3; }
     .collage .collage__container .card.card--collage.col-1 {
       background: red; }
     .collage .collage__container .card.card--collage.col-2 {
