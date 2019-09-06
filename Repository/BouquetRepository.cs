@@ -35,9 +35,9 @@ namespace PracticeFlorisoft.Repository
             return cacheHelper.GetAllBouquets(cacheKey).OrderByDescending(x => x.Rating).ToList();
         }
 
-        public void UpdateCache(Bouquet bouquet)
+        public bool UpdateCache(Bouquet bouquet)
         {
-            cacheHelper.UpdateCache(bouquet, this.cacheKey);
+            return cacheHelper.UpdateCache(bouquet, this.cacheKey);
         }
     }
 }

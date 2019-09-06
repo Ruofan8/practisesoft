@@ -14,6 +14,9 @@ namespace PracticeFlorisoft.Helper
 
         public List<Bouquet> GetAllBouquets (string cacheKey)
         {
+            if (string.IsNullOrEmpty(cacheKey))
+                return new List<Bouquet>();
+
             if (!cache.Contains(cacheKey))
             {
                 var products = new List <Bouquet> {
@@ -105,12 +108,21 @@ namespace PracticeFlorisoft.Helper
             return cache.Get(cacheKey) as List<Bouquet>;
         }
 
-        public void UpdateCache(Bouquet bouquet, string cacheKey)
+        public bool UpdateCache(Bouquet bouquet, string cacheKey)
         {
+            if (bouquet == null || string.IsNullOrEmpty(cacheKey))
+                return false;
+
             CacheItemPolicy policy = new CacheItemPolicy();
             var products = GetAllBouquets(cacheKey);
+
+            if (products == null)
+                return false;
+
             products.Add(bouquet);
             cache.Add(cacheKey, products, policy);
+
+            return true;
         }
     }
 }

@@ -76,42 +76,29 @@ namespace PracticeFlorisoft.Controllers
             {
                 request.Seek(0, SeekOrigin.Begin);
                 string bodyData = new StreamReader(request).ReadToEnd();
-                bouquet = JsonConvert.DeserializeObject<Bouquet>(bodyData);
+
+                if(!string.IsNullOrEmpty(bodyData))
+                    bouquet = JsonConvert.DeserializeObject<Bouquet>(bodyData);
             }
 
-            //var message = new HttpResponseMessage();
             BouquetRepository _boquetRepository = new BouquetRepository();
 
             if (bouquet == null)
                 return Json($"403: Bouquet is null");
-                //return new HttpResponseMessage
-                //{
-                //    StatusCode = HttpStatusCode.BadRequest,
-                //    Content = new StringContent($"Bouquet is null")
-                //};
-                
+
+            var success = true;
             try
             {
-                _boquetRepository.UpdateCache(bouquet);
-
+                success =_boquetRepository.UpdateCache(bouquet);
             }
             catch (System.Exception e)
             {
                 return Json($"403: Failed to add bouquet: {e}");
-
-                //return new HttpResponseMessage
-                //{
-                //    StatusCode = HttpStatusCode.BadRequest,
-                //    Content = new StringContent($"Failed to add bouquet: {e}")
-                //};
             }
-            return Json($"Succeeded to add {bouquet.Title} {_products.Count}");
-           
-            //return new HttpResponseMessage
-            //{
-            //    StatusCode = HttpStatusCode.OK,
-            //    Content = new StringContent($"Succeeded to add {bouquet.Title} {_products.Count}")
-            //};
+
+            return success 
+                ? Json($"Succeeded to add {bouquet.Title} {_products.Count}")
+                : Json($"Failed to add {bouquet.Title} {_products.Count}");
         }
 
     }
