@@ -1,7 +1,3 @@
-interface HTMLInputEvent extends Event {
-    target: HTMLInputElement & EventTarget;
-}
-
 class Bouquet {
     AmountComments: number;
     AmountLikes: number;
@@ -15,31 +11,36 @@ class Bouquet {
 
 class BouquetHelper {
     data: Bouquet[];
+    collageContainer = document.getElementsByClassName('collage__container');
 
     bindFilters() {
         //TODO: refactor move outside, be more efficient with elements
-        var sidebar = document.getElementById('sidebar');
-        var filters = sidebar.getElementsByClassName('collage-filter');
+        //var sidebar = document.getElementById('sidebar');
+        var filters = document.getElementsByClassName('collage-filter');
         for (var i = 0; i < filters.length; i++) {
             filters[i].addEventListener('click', (e) => {
                 var filter = e.srcElement;
                 var type = (<any>filter).getAttribute('data-filter');
                 var text = (<any>filter).textContent;
                 console.log(type);
-                this.getData(type, text);
+                //this.getData(type, text);
+                this.getView(type, text);
+                this.checkHeight();
             });
         }
     };
-
+    async getView(param: string = null, text: string = 'Hoogste gewaardeerde') {
+        var requestHelper = new RequestHelper('http://practicesoft/bouquet/test?type=' + param);
+        var view = await requestHelper.getView();
+        return this.collageContainer[0].innerHTML = view;
+    };
     async getData(param: string = null, text: string = 'Hoogste gewaardeerde') {
-        var collageContainer = document.getElementsByClassName('collage__container');
-        var requestHelper = new RequestHelper('http://practicesoft/api/bouquet?type='+param);
+        var requestHelper = new RequestHelper('http://practicesoft/bouquet/test?type=' + param);
         this.data = await requestHelper.get();
-        console.log(this.data);
-        collageContainer[0].innerHTML = "";
+        this.collageContainer[0].innerHTML = "";
         for (var i = 0; i < this.data.length; i++) {
             var card = this._generateHtml(this.data[i]);
-            collageContainer[0].appendChild(card);
+            this.collageContainer[0].appendChild(card);
         }
 
         var collageTitle = document.getElementsByClassName('collage__title');
@@ -48,6 +49,38 @@ class BouquetHelper {
         //TODO: Investigate nice void return
         return this.data;
     };
+
+    checkHeight() {
+        var children = this.collageContainer[0].children;
+        var first = 0;
+        var second = 0;
+        var third = 0;
+        var highest = 0;
+
+        for (var i = 0; i < children.length; i++) {
+            if (i % 2 == 0 && i % 3 != 0) {
+                second = second + children[i].clientHeight;
+
+                if (highest < second)
+                    highest = children[i].clientHeight;
+
+            } else if (i % 3 == 0) {
+                third = third + children[i].clientHeight;
+
+                if (highest < third)
+                    highest = children[i].clientHeight;
+
+            } else {
+                first = first + children[i].clientHeight;
+
+                if (highest < first)
+                    highest = children[i].clientHeight;
+            }
+        }
+        var highestTotal = Math.max(first, second, third) + highest;
+        this.collageContainer[0].setAttribute('style', 'height: ' + highestTotal + 'px');
+        
+    }
 
     //TODO: Refactor return view as data instead of generateHtml
     _generateHtml(bouquet: Bouquet) {
@@ -85,17 +118,21 @@ class BouquetHelper {
 
 }
 
+interface HTMLInputEvent extends Event {
+    target: HTMLInputElement & EventTarget;
+}
+
 class Upload {
     newBouquet: Bouquet = new Bouquet();
+    body = document.body;
+    dialog = document.getElementsByClassName('dialog');
+    preview = document.getElementById('preview') as HTMLImageElement;
 
     bindUploadScreen() {
-        var body = document.body;
-        var dialog = document.getElementsByClassName('dialog');
         var buttons = document.getElementsByClassName('button--upload');
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', (e) => {
-                body.classList.toggle("overlayed");
-                dialog[0].classList.toggle("show");
+                this.toggleDialog();
             });
         };
     }
@@ -107,8 +144,7 @@ class Upload {
             if (file) {
                 var reader = new FileReader();
                 reader.onload = (ev: Event) => {
-                    var img = document.getElementById('preview') as HTMLImageElement;
-                    img.src = reader.result.toString();
+                    this.preview.src = reader.result.toString();
                     //TODO: Refactor to actual numbers
                     console.log('start timer')
                     setTimeout(() => {
@@ -116,12 +152,12 @@ class Upload {
 
                         var canvas = document.createElement("canvas");
                         var ctx = canvas.getContext("2d");
-                        ctx.drawImage(img, 0, 0);
+                        ctx.drawImage(this.preview, 0, 0);
 
                         var MAX_WIDTH = 400;
                         var MAX_HEIGHT = 400;
-                        var width = img.width;
-                        var height = img.height;
+                        var width = this.preview.width;
+                        var height = this.preview.height;
 
                         if (width > height) {
                             if (width > MAX_WIDTH) {
@@ -137,18 +173,18 @@ class Upload {
                         canvas.width = width;
                         canvas.height = height;
                         var ctx = canvas.getContext("2d");
-                        ctx.drawImage(img, 0, 0, width, height);
+                        ctx.drawImage(this.preview, 0, 0, width, height);
 
                         var dataurl = canvas.toDataURL(file.type);
-                        img.src = dataurl;
+                        this.preview.src = dataurl;
 
                         this.newBouquet.AmountComments = 0;
                         this.newBouquet.AmountLikes = 0;
                         this.newBouquet.AmountViews = 0;
-                        this.newBouquet.PhotoUrl = img.src;
+                        this.newBouquet.PhotoUrl = this.preview.src;
                         this.newBouquet.PublishedDate = new Date();
                         this.newBouquet.Rating = 0;
-                        this.newBouquet.Title = img.title;
+                        this.newBouquet.Title = this.preview.title;
                         this.newBouquet.Username = 'ruofan'
                         console.log(this.newBouquet)
 
@@ -162,28 +198,42 @@ class Upload {
 
         var cancel = document.getElementById('cancel');
         cancel.addEventListener('click', () => {
-            document.body.classList.toggle("overlayed")
-            var dialog = document.getElementsByClassName('dialog');
-            dialog[0].classList.toggle("show");
+            this.toggleDialog();
         });
 
         var form = document.getElementById('submit');
         form.addEventListener('click', async (e) => {
             if (e.preventDefault) e.preventDefault();
-            console.log('clicked')
+            console.log(this.newBouquet.PhotoUrl)
+            if (this.newBouquet.PhotoUrl == undefined)
+                return;
+
             var name = document.getElementById('name') as HTMLInputElement;
             this.newBouquet.Title = name.value;
-            return await this.uploadImage(this.newBouquet);
+
+
+            return await this.uploadImage();
         });
     }
 
-    async uploadImage(bouquet: Bouquet) {
-        var requestHelper = new RequestHelper('http://practicesoft/api/bouquet/add');
+    async uploadImage() {
+        var requestHelper = new RequestHelper('http://practicesoft/bouquet/add');
+        var result = await requestHelper.post(this.newBouquet);
 
-        console.log('uplad')
-        return await requestHelper.post(bouquet);
+        this.newBouquet = new Bouquet();
+
+        if (result.indexOf('Succeeded') > -1) {
+            this.preview.src = 'https://cdn.icon-icons.com/icons2/1325/PNG/512/thumbsup4x_86998.png';
+        }
+
+        return result;
         //TODO: Create Post Helper
         //TODO: Autorefresh latest search with new item
+    }
+
+    toggleDialog() {
+        this.body.classList.toggle("overlayed")
+        this.dialog[0].classList.toggle("show");
     }
 }
 
@@ -191,6 +241,7 @@ class Init {
     constructor() {
         var bouquetHelper = new BouquetHelper();
         bouquetHelper.bindFilters();
+        bouquetHelper.checkHeight();
         var upload = new Upload();
         upload.bindUploadScreen();
         upload.bindUpload();

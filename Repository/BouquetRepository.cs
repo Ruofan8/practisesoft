@@ -1,17 +1,12 @@
 ﻿using PracticeFlorisoft.Helper;
 using PracticeFlorisoft.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Caching;
-using System.Web;
 
 namespace PracticeFlorisoft.Repository
 {
     public class BouquetRepository
     {
-        //TODO: Move cache to CacheHelper
-        private ObjectCache cache = MemoryCache.Default;
         public string cacheKey = "Bouquet";
         private CacheHelper cacheHelper = new CacheHelper();
 
@@ -42,10 +37,7 @@ namespace PracticeFlorisoft.Repository
 
         public void UpdateCache(Bouquet bouquet)
         {
-            CacheItemPolicy policy = new CacheItemPolicy();
-            var products = cacheHelper.GetAllBouquets(cacheKey);
-            products.Add(bouquet);
-            cache.Add(cacheKey, products, policy);
+            cacheHelper.UpdateCache(bouquet, this.cacheKey);
         }
     }
 }

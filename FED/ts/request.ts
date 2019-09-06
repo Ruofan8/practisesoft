@@ -1,5 +1,6 @@
 ﻿console.log('request.ts')
 class RequestHelper {
+
     url: string;
 
     constructor(url: string) {
@@ -21,13 +22,32 @@ class RequestHelper {
                 return response.json();
             })
             .then(function (data) {
-                //TODO: return typed json?
                 return data;
             });
     }
+
+
+    async getView() {
+        var myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'text/html');
+
+        return await fetch(this.url, {
+            method: 'GET',
+            headers: myHeaders,
+            mode: 'cors',
+            credentials: 'same-origin',
+            cache: 'default'
+        })
+            .then(function (response) {
+                return response.text();
+            }).then(function (data) {
+                return data;
+            });
+    }
+
     async post(data) {
         var myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Content-Type', 'application/json; charset=utf-8');
 
         return await fetch(this.url, {
             method: 'POST',
@@ -35,10 +55,13 @@ class RequestHelper {
             mode: 'cors',
             credentials: 'same-origin',
             cache: 'default',
+            
             body: JSON.stringify(data),
         })
             .then(function (response) {
-                return response.json();
+                return response.text();
+            }).then(function (data) {
+                return data;
             });
     }
 }

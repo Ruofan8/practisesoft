@@ -40,13 +40,14 @@
         &::after {
             content: "";
             flex-basis: 100%;
-            width: 0;
             order: 2;
+            width: 0;
         }
 
         .card.card--collage {
-            width: 32%;
+            min-height: 100px;
             margin-bottom: 15px;
+            width: 32%;
 
             &:nth-child(3n+1) {
                 order: 1;

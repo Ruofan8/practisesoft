@@ -1,57 +1,95 @@
 ﻿using PracticeFlorisoft.Models;
 using System.Collections.Generic;
-using System.Web.Http;
-using System.Linq;
 using PracticeFlorisoft.Repository;
 using System.Net.Http;
 using System.Net;
 using PracticeFlorisoft.Helper;
+using System.Net.Http.Headers;
+using System.Web.Mvc;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace PracticeFlorisoft.Controllers
 {
-    public class BouquetController : ApiController
+    public class BouquetController : System.Web.Mvc.Controller
     {
         private readonly static string _cacheKey = "Bouquet";
-        private List<Bouquet> _products = new CacheHelper().GetAllBouquets(_cacheKey);
+        private List<Bouquet> _products = new CacheHelper().GetAllBouquets(_cacheKey);  
         private BouquetRepository _bouquetRepository = new BouquetRepository();
 
         //TODO: Refactor views inside of API endpoints
         [HttpGet]
-        public List<Bouquet> All(string type)
+        public ActionResult All(string type)
         {
-            if(string.IsNullOrEmpty(type))
-                return _products;
+
+            if (string.IsNullOrEmpty(type))
+                return Json(_products, JsonRequestBehavior.AllowGet);
 
             //TODO: Enum for type
-            switch(type)
+            switch (type)
             {
                 case "likes":
-                    _products = _bouquetRepository.SortByLikes();
+                    return Json(_bouquetRepository.SortByLikes(), JsonRequestBehavior.AllowGet);
+                case "viewed":
+                    return Json(_bouquetRepository.SortByViewed(), JsonRequestBehavior.AllowGet);
+                case "comments":
+                    return Json(_bouquetRepository.SortByComments(), JsonRequestBehavior.AllowGet);
+                case "rated":
+                    return Json(_bouquetRepository.SortByRated(), JsonRequestBehavior.AllowGet);
+                default:
+                    return Json(_products, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public PartialViewResult Test(string type = null)
+        {
+            var model = new BouquetModel();
+
+            switch (type)
+            {
+                case "likes":
+                    model.Bouquets = _bouquetRepository.SortByLikes();
                     break;
                 case "viewed":
-                    _products = _bouquetRepository.SortByViewed();
+                    model.Bouquets = _bouquetRepository.SortByViewed();
                     break;
                 case "comments":
-                    _products = _bouquetRepository.SortByComments();
+                    model.Bouquets = _bouquetRepository.SortByComments();
                     break;
                 case "rated":
-                    _products = _bouquetRepository.SortByRated();
+                    model.Bouquets = _bouquetRepository.SortByRated();
                     break;
                 default:
+                    model.Bouquets = _bouquetRepository.GetAllBouquets();
                     break;
             }
-            return _products;
+
+            return PartialView("~/Views/Partial/Collage.cshtml", model);
         }
 
         [HttpPost]
-        [Route("api/bouquet/add")]
-        public HttpResponseMessage Add(Bouquet bouquet)
+        public ActionResult Add(Bouquet bouquet)
         {
+            //Read raw data and deserialize
+            //https://stackoverflow.com/questions/52958607/vue-fetch-post-data-to-controller-asp-net-mvc
+            using (Stream request = Request.InputStream)
+            {
+                request.Seek(0, SeekOrigin.Begin);
+                string bodyData = new StreamReader(request).ReadToEnd();
+                bouquet = JsonConvert.DeserializeObject<Bouquet>(bodyData);
+            }
+
+            //var message = new HttpResponseMessage();
             BouquetRepository _boquetRepository = new BouquetRepository();
 
             if (bouquet == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest, $"Bouquet is null");
-
+                return Json($"403: Bouquet is null");
+                //return new HttpResponseMessage
+                //{
+                //    StatusCode = HttpStatusCode.BadRequest,
+                //    Content = new StringContent($"Bouquet is null")
+                //};
+                
             try
             {
                 _boquetRepository.UpdateCache(bouquet);
@@ -59,9 +97,21 @@ namespace PracticeFlorisoft.Controllers
             }
             catch (System.Exception e)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, $"Failed to add bouquet: {e}");
+                return Json($"403: Failed to add bouquet: {e}");
+
+                //return new HttpResponseMessage
+                //{
+                //    StatusCode = HttpStatusCode.BadRequest,
+                //    Content = new StringContent($"Failed to add bouquet: {e}")
+                //};
             }
-            return Request.CreateResponse(HttpStatusCode.OK, $"Succeeded to add {bouquet.Title} {_products.Count}");
+            return Json($"Succeeded to add {bouquet.Title} {_products.Count}");
+           
+            //return new HttpResponseMessage
+            //{
+            //    StatusCode = HttpStatusCode.OK,
+            //    Content = new StringContent($"Succeeded to add {bouquet.Title} {_products.Count}")
+            //};
         }
 
     }

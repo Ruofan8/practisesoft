@@ -40,42 +40,61 @@ var Bouquet = /** @class */ (function () {
 }());
 var BouquetHelper = /** @class */ (function () {
     function BouquetHelper() {
+        this.collageContainer = document.getElementsByClassName('collage__container');
     }
     BouquetHelper.prototype.bindFilters = function () {
         var _this = this;
         //TODO: refactor move outside, be more efficient with elements
-        var sidebar = document.getElementById('sidebar');
-        var filters = sidebar.getElementsByClassName('collage-filter');
+        //var sidebar = document.getElementById('sidebar');
+        var filters = document.getElementsByClassName('collage-filter');
         for (var i = 0; i < filters.length; i++) {
             filters[i].addEventListener('click', function (e) {
                 var filter = e.srcElement;
                 var type = filter.getAttribute('data-filter');
                 var text = filter.textContent;
                 console.log(type);
-                _this.getData(type, text);
+                //this.getData(type, text);
+                _this.getView(type, text);
+                _this.checkHeight();
             });
         }
+    };
+    ;
+    BouquetHelper.prototype.getView = function (param, text) {
+        if (param === void 0) { param = null; }
+        if (text === void 0) { text = 'Hoogste gewaardeerde'; }
+        return __awaiter(this, void 0, void 0, function () {
+            var requestHelper, view;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        requestHelper = new RequestHelper('http://practicesoft/bouquet/test?type=' + param);
+                        return [4 /*yield*/, requestHelper.getView()];
+                    case 1:
+                        view = _a.sent();
+                        return [2 /*return*/, this.collageContainer[0].innerHTML = view];
+                }
+            });
+        });
     };
     ;
     BouquetHelper.prototype.getData = function (param, text) {
         if (param === void 0) { param = null; }
         if (text === void 0) { text = 'Hoogste gewaardeerde'; }
         return __awaiter(this, void 0, void 0, function () {
-            var collageContainer, requestHelper, _a, i, card, collageTitle;
+            var requestHelper, _a, i, card, collageTitle;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        collageContainer = document.getElementsByClassName('collage__container');
-                        requestHelper = new RequestHelper('http://practicesoft/api/bouquet?type=' + param);
+                        requestHelper = new RequestHelper('http://practicesoft/bouquet/test?type=' + param);
                         _a = this;
                         return [4 /*yield*/, requestHelper.get()];
                     case 1:
                         _a.data = _b.sent();
-                        console.log(this.data);
-                        collageContainer[0].innerHTML = "";
+                        this.collageContainer[0].innerHTML = "";
                         for (i = 0; i < this.data.length; i++) {
                             card = this._generateHtml(this.data[i]);
-                            collageContainer[0].appendChild(card);
+                            this.collageContainer[0].appendChild(card);
                         }
                         collageTitle = document.getElementsByClassName('collage__title');
                         collageTitle[0].textContent = text + ' boeketten';
@@ -86,6 +105,32 @@ var BouquetHelper = /** @class */ (function () {
         });
     };
     ;
+    BouquetHelper.prototype.checkHeight = function () {
+        var children = this.collageContainer[0].children;
+        var first = 0;
+        var second = 0;
+        var third = 0;
+        var highest = 0;
+        for (var i = 0; i < children.length; i++) {
+            if (i % 2 == 0 && i % 3 != 0) {
+                second = second + children[i].clientHeight;
+                if (highest < second)
+                    highest = children[i].clientHeight;
+            }
+            else if (i % 3 == 0) {
+                third = third + children[i].clientHeight;
+                if (highest < third)
+                    highest = children[i].clientHeight;
+            }
+            else {
+                first = first + children[i].clientHeight;
+                if (highest < first)
+                    highest = children[i].clientHeight;
+            }
+        }
+        var highestTotal = Math.max(first, second, third) + highest;
+        this.collageContainer[0].setAttribute('style', 'height: ' + highestTotal + 'px');
+    };
     //TODO: Refactor return view as data instead of generateHtml
     BouquetHelper.prototype._generateHtml = function (bouquet) {
         var cardImage = document.createElement('div');
@@ -118,15 +163,16 @@ var BouquetHelper = /** @class */ (function () {
 var Upload = /** @class */ (function () {
     function Upload() {
         this.newBouquet = new Bouquet();
+        this.body = document.body;
+        this.dialog = document.getElementsByClassName('dialog');
+        this.preview = document.getElementById('preview');
     }
     Upload.prototype.bindUploadScreen = function () {
-        var body = document.body;
-        var dialog = document.getElementsByClassName('dialog');
+        var _this = this;
         var buttons = document.getElementsByClassName('button--upload');
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', function (e) {
-                body.classList.toggle("overlayed");
-                dialog[0].classList.toggle("show");
+                _this.toggleDialog();
             });
         }
         ;
@@ -140,19 +186,18 @@ var Upload = /** @class */ (function () {
             if (file) {
                 var reader = new FileReader();
                 reader.onload = function (ev) {
-                    var img = document.getElementById('preview');
-                    img.src = reader.result.toString();
+                    _this.preview.src = reader.result.toString();
                     //TODO: Refactor to actual numbers
                     console.log('start timer');
                     setTimeout(function () {
                         console.log('starting');
                         var canvas = document.createElement("canvas");
                         var ctx = canvas.getContext("2d");
-                        ctx.drawImage(img, 0, 0);
+                        ctx.drawImage(_this.preview, 0, 0);
                         var MAX_WIDTH = 400;
                         var MAX_HEIGHT = 400;
-                        var width = img.width;
-                        var height = img.height;
+                        var width = _this.preview.width;
+                        var height = _this.preview.height;
                         if (width > height) {
                             if (width > MAX_WIDTH) {
                                 height *= MAX_WIDTH / width;
@@ -168,16 +213,16 @@ var Upload = /** @class */ (function () {
                         canvas.width = width;
                         canvas.height = height;
                         var ctx = canvas.getContext("2d");
-                        ctx.drawImage(img, 0, 0, width, height);
+                        ctx.drawImage(_this.preview, 0, 0, width, height);
                         var dataurl = canvas.toDataURL(file.type);
-                        img.src = dataurl;
+                        _this.preview.src = dataurl;
                         _this.newBouquet.AmountComments = 0;
                         _this.newBouquet.AmountLikes = 0;
                         _this.newBouquet.AmountViews = 0;
-                        _this.newBouquet.PhotoUrl = img.src;
+                        _this.newBouquet.PhotoUrl = _this.preview.src;
                         _this.newBouquet.PublishedDate = new Date();
                         _this.newBouquet.Rating = 0;
-                        _this.newBouquet.Title = img.title;
+                        _this.newBouquet.Title = _this.preview.title;
                         _this.newBouquet.Username = 'ruofan';
                         console.log(_this.newBouquet);
                     }, 1000);
@@ -187,9 +232,7 @@ var Upload = /** @class */ (function () {
         });
         var cancel = document.getElementById('cancel');
         cancel.addEventListener('click', function () {
-            document.body.classList.toggle("overlayed");
-            var dialog = document.getElementsByClassName('dialog');
-            dialog[0].classList.toggle("show");
+            _this.toggleDialog();
         });
         var form = document.getElementById('submit');
         form.addEventListener('click', function (e) { return __awaiter(_this, void 0, void 0, function () {
@@ -199,28 +242,39 @@ var Upload = /** @class */ (function () {
                     case 0:
                         if (e.preventDefault)
                             e.preventDefault();
-                        console.log('clicked');
+                        console.log(this.newBouquet.PhotoUrl);
+                        if (this.newBouquet.PhotoUrl == undefined)
+                            return [2 /*return*/];
                         name = document.getElementById('name');
                         this.newBouquet.Title = name.value;
-                        return [4 /*yield*/, this.uploadImage(this.newBouquet)];
+                        return [4 /*yield*/, this.uploadImage()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         }); });
     };
-    Upload.prototype.uploadImage = function (bouquet) {
+    Upload.prototype.uploadImage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var requestHelper;
+            var requestHelper, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        requestHelper = new RequestHelper('http://practicesoft/api/bouquet/add');
-                        console.log('uplad');
-                        return [4 /*yield*/, requestHelper.post(bouquet)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                        requestHelper = new RequestHelper('http://practicesoft/bouquet/add');
+                        return [4 /*yield*/, requestHelper.post(this.newBouquet)];
+                    case 1:
+                        result = _a.sent();
+                        this.newBouquet = new Bouquet();
+                        if (result.indexOf('Succeeded') > -1) {
+                            this.preview.src = 'https://cdn.icon-icons.com/icons2/1325/PNG/512/thumbsup4x_86998.png';
+                        }
+                        return [2 /*return*/, result];
                 }
             });
         });
+    };
+    Upload.prototype.toggleDialog = function () {
+        this.body.classList.toggle("overlayed");
+        this.dialog[0].classList.toggle("show");
     };
     return Upload;
 }());
@@ -228,6 +282,7 @@ var Init = /** @class */ (function () {
     function Init() {
         var bouquetHelper = new BouquetHelper();
         bouquetHelper.bindFilters();
+        bouquetHelper.checkHeight();
         var upload = new Upload();
         upload.bindUploadScreen();
         upload.bindUpload();
@@ -259,7 +314,31 @@ var RequestHelper = /** @class */ (function () {
                                 return response.json();
                             })
                                 .then(function (data) {
-                                //TODO: return typed json?
+                                return data;
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    RequestHelper.prototype.getView = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var myHeaders;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        myHeaders = new Headers();
+                        myHeaders.append('Content-Type', 'text/html');
+                        return [4 /*yield*/, fetch(this.url, {
+                                method: 'GET',
+                                headers: myHeaders,
+                                mode: 'cors',
+                                credentials: 'same-origin',
+                                cache: 'default'
+                            })
+                                .then(function (response) {
+                                return response.text();
+                            }).then(function (data) {
                                 return data;
                             })];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -274,7 +353,7 @@ var RequestHelper = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         myHeaders = new Headers();
-                        myHeaders.append('Content-Type', 'application/json');
+                        myHeaders.append('Content-Type', 'application/json; charset=utf-8');
                         return [4 /*yield*/, fetch(this.url, {
                                 method: 'POST',
                                 headers: myHeaders,
@@ -284,7 +363,9 @@ var RequestHelper = /** @class */ (function () {
                                 body: JSON.stringify(data),
                             })
                                 .then(function (response) {
-                                return response.json();
+                                return response.text();
+                            }).then(function (data) {
+                                return data;
                             })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }

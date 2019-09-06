@@ -4369,7 +4369,7 @@ body {
   font-family: Arial; }
   body.overlayed:after {
     content: '';
-    background: black;
+    background: rgba(0, 0, 0, 0.4);
     height: 100%;
     width: 100%;
     position: fixed;
@@ -4549,11 +4549,12 @@ h3 {
   .collage .collage__container::before, .collage .collage__container::after {
     content: "";
     flex-basis: 100%;
-    width: 0;
-    order: 2; }
+    order: 2;
+    width: 0; }
   .collage .collage__container .card.card--collage {
-    width: 32%;
-    margin-bottom: 15px; }
+    min-height: 100px;
+    margin-bottom: 15px;
+    width: 32%; }
     .collage .collage__container .card.card--collage:nth-child(3n+1) {
       order: 1; }
     .collage .collage__container .card.card--collage:nth-child(3n+2) {
@@ -4578,6 +4579,9 @@ h3 {
     display: block; }
   .dialog .card {
     background: white; }
+  .dialog img {
+    max-height: 400px;
+    width: auto; }
 
 .hero-image .container {
   background-image: url(/statics/img/background.png);
