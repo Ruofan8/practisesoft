@@ -5,45 +5,42 @@ using System.Linq;
 using PracticeFlorisoft.Repository;
 using System.Net.Http;
 using System.Net;
+using PracticeFlorisoft.Helper;
 
 namespace PracticeFlorisoft.Controllers
 {
     public class BouquetController : ApiController
     {
-        private List<Bouquet> _products = new BouquetRepository().GetAllBouquets();
+        private readonly static string _cacheKey = "Bouquet";
+        private List<Bouquet> _products = new CacheHelper().GetAllBouquets(_cacheKey);
+        private BouquetRepository _bouquetRepository = new BouquetRepository();
+
         //TODO: Refactor views inside of API endpoints
         [HttpGet]
-        public List<Bouquet> All()
+        public List<Bouquet> All(string type)
         {
+            if(string.IsNullOrEmpty(type))
+                return _products;
+
+            //TODO: Enum for type
+            switch(type)
+            {
+                case "likes":
+                    _products = _bouquetRepository.SortByLikes();
+                    break;
+                case "viewed":
+                    _products = _bouquetRepository.SortByViewed();
+                    break;
+                case "comments":
+                    _products = _bouquetRepository.SortByComments();
+                    break;
+                case "rated":
+                    _products = _bouquetRepository.SortByRated();
+                    break;
+                default:
+                    break;
+            }
             return _products;
-        }
-
-        [HttpGet]
-        [Route("api/bouquet/likes")]
-        public List<Bouquet> Likes()
-        {
-            return _products.OrderByDescending(x => x.AmountLikes).ToList();
-        }
-
-        [HttpGet]
-        [Route("api/bouquet/viewed")]
-        public List<Bouquet> Viewed()
-        {
-            return _products.OrderByDescending(x => x.AmountViews).ToList();
-        }
-
-        [HttpGet]
-        [Route("api/bouquet/comments")]
-        public List<Bouquet> comments()
-        {
-            return _products.OrderByDescending(x => x.AmountComments).ToList();
-        }
-
-        [HttpGet]
-        [Route("api/bouquet/rated")]
-        public List<Bouquet> Rated()
-        {
-            return _products.OrderByDescending(x => x.Rating).ToList();
         }
 
         [HttpPost]
@@ -66,5 +63,6 @@ namespace PracticeFlorisoft.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, $"Succeeded to add {bouquet.Title} {_products.Count}");
         }
+
     }
 }

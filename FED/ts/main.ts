@@ -33,7 +33,7 @@ class BouquetHelper {
 
     async getData(param: string = null, text: string = 'Hoogste gewaardeerde') {
         var collageContainer = document.getElementsByClassName('collage__container');
-        var requestHelper = new RequestHelper('http://practicesoft/api/bouquet/' + param);
+        var requestHelper = new RequestHelper('http://practicesoft/api/bouquet?type='+param);
         this.data = await requestHelper.get();
         console.log(this.data);
         collageContainer[0].innerHTML = "";

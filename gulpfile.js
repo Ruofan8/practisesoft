@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var ts = require('gulp-typescript');
-var tsProject = ts.createProject('tsconfig.json');
+//var tsProject = ts.createProject('tsconfig.json');
 
 
 gulp.task('default', function () {
@@ -9,11 +9,11 @@ gulp.task('default', function () {
     //gulp.watch('./FED/ts/**/*.ts', gulp.series('ts'));
 });
 
-gulp.task('ts', function () {
-    return tsProject.src()
-        .pipe(tsProject())
-        .js.pipe(gulp.dest('./statics/js'));
-});
+//gulp.task('ts', function () {
+//    return tsProject.src()
+//        .pipe(tsProject())
+//        .js.pipe(gulp.dest('./statics/js'));
+//});
 
 gulp.task('sass', function () {
     return gulp.src('./FED/sass/**/*.scss')

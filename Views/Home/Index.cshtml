@@ -65,36 +65,7 @@
                 <h3 class="collage__title">Hoogste gewaardeerde boeketten</h3> <hr /> <a href="#">> Bekijk alle boeketten</a>
             </div>
             <div class="collage__container">
-                @{ 
-                    var col = 1;
-                }
-                @foreach (var bouquet in Model.Bouquets)
-                {
-                    <div class="card card--collage col-@col">
-                        <div class="card__image">
-                            <img src="@bouquet.PhotoUrl" />
-                            <div class="card__social">
-                                <div class="card__social--container card__like">
-                                    @*<i class="fas fa-heart"></i>*@
-                                    <span>@bouquet.AmountLikes</span>
-                                </div>
-                                <div class="card__social--container card__comment">
-                                    @*<i class="fas fa-comment-alt"></i>*@
-                                    <span>@bouquet.AmountComments</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card__content">
-                            <h3>@bouquet.Title</h3>
-                            <p>@bouquet.Username</p>
-                        </div>
-                    </div>
-                    if(col >= 3)
-                    {
-                        col = 0;
-                    }
-                    col++;
-                    }
+                @Html.Partial("~/Views/Partial/Collage.cshtml")
             </div>
         </div>
     </div>

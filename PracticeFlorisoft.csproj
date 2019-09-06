@@ -152,12 +152,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Models\Bouquet.cs" />
     <Compile Include="Models\BouquetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BouquetRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -196,6 +198,7 @@
     <Content Include="FED\sass\_collage.scss" />
     <Content Include="FED\sass\_dialog.scss" />
     <Content Include="FED\sass\_hero-image.scss" />
+    <Content Include="package.json" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -208,12 +211,32 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="statics\css\font-awesome\brands.css" />
+    <Content Include="statics\css\font-awesome\fontawesome.css" />
+    <Content Include="statics\css\font-awesome\regular.css" />
+    <Content Include="statics\css\font-awesome\solid.css" />
+    <Content Include="statics\css\font-awesome\v4-shims.css" />
     <Content Include="statics\css\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="statics\css\scss\brands.css" />
+    <Content Include="statics\css\scss\fontawesome.css" />
+    <Content Include="statics\css\scss\regular.css" />
+    <Content Include="statics\css\scss\solid.css" />
+    <Content Include="statics\css\scss\v4-shims.css" />
     <Content Include="statics\css\webfonts\fa-brands-400.svg" />
     <Content Include="statics\css\webfonts\fa-regular-400.svg" />
     <Content Include="statics\css\webfonts\fa-solid-900.svg" />
+    <Content Include="statics\img\Boeket1.jpg" />
+    <Content Include="statics\img\Boeket2.jpg" />
+    <Content Include="statics\img\Boeket3.jpg" />
+    <Content Include="statics\img\Boeket4.jpg" />
+    <Content Include="statics\img\Boeket5.jpg" />
+    <Content Include="statics\img\Boeket6.jpg" />
+    <Content Include="statics\img\Boeket7.jpg" />
+    <Content Include="statics\img\Boeket8.jpg" />
+    <Content Include="statics\img\header-logo-large.svg" />
+    <Content Include="statics\img\info.svg" />
     <Content Include="statics\js\main.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -241,6 +264,7 @@
     <Content Include="statics\css\webfonts\fa-solid-900.ttf" />
     <Content Include="statics\css\webfonts\fa-solid-900.woff" />
     <Content Include="statics\css\webfonts\fa-solid-900.woff2" />
+    <Content Include="Views\Partial\Collage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
